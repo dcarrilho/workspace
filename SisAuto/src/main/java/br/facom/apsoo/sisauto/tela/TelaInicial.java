@@ -1,6 +1,8 @@
 package br.facom.apsoo.sisauto.tela;
 
 import java.awt.MenuItem;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +23,7 @@ public class TelaInicial extends JFrame{
 	JPanel panel = new JPanel();
 	
 	public TelaInicial(){
+		super.setTitle("SisAuto");
 		super.setSize(300, 300);
 		super.setVisible(true);
 		panel.add(venda);
@@ -28,9 +31,46 @@ public class TelaInicial extends JFrame{
 		menu.add(menuItem1);
 		menu.add(menuItem2);
 		menuBar.add(menu);
-		panel.add(menuBar);
+		super.setJMenuBar(menuBar);
+//		panel.add(menuBar);
 		add(panel);
+		
+		venda.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new TelaVenda();
+				
+			}
+		});
+		
+		td.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new TelaTestDrive();
+				
+			}
+		});
+		
+		menuItem1.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new TelaAdicionaCliente();
+			}
+		});
+		
+		menuItem2.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new TelaAdicionaVeiculo();
+				
+			}
+		});
 	
 	}
+	
 	
 }
