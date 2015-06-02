@@ -7,9 +7,25 @@ public class Cliente {
 	private String nome;
 	private String cadastro;
 	private String endereco;
+	private String cidade;
+	private String estado;
 	private Calendar dataCadastro;
 	
+
 	//getters snd setter
+	public String getCidade() {
+		return cidade;
+	}
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+	public String getEstado() {
+		return estado;
+	}
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	
 	public String getNome() {
 		return nome;
 	}

@@ -19,14 +19,16 @@ public class ClienteDao {
 		Connection con = new ConnectionFactory().getConnection();
 		Statement stmt = null;
 		
-		String SQL = "INSERT INTO cliente VALUES (?,?,?,?)";
+		String SQL = "INSERT INTO cliente VALUES (?,?,?,?,?,?)";
 		
         PreparedStatement prepare = con.prepareStatement(SQL);
         
         prepare.setString(1, cliente.getCadastro());
         prepare.setString(2, cliente.getNome());
         prepare.setString(3, cliente.getEndereco());
-		prepare.setDate(4, null);
+        prepare.setString(4, cliente.getCidade());
+        prepare.setString(5, cliente.getEstado());
+		prepare.setDate(6, null);
         
         prepare.execute();
 

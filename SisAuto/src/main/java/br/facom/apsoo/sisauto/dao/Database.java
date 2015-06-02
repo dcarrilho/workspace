@@ -16,6 +16,8 @@ public class Database {
 				+ " cadastro varchar(14) PRIMARY KEY NOT NULL,"
 				+ " nome varchar(70),"
 				+ " endereco varchar(256),"
+				+ " cidade varchar(70),"
+				+ " estado varchar(2),"
 				+ " data date);");
 		
 		System.out.println("Tabela cliente criada...");
