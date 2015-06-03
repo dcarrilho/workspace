@@ -1,24 +1,27 @@
 package br.facom.apsoo.sisauto.tela;
 
-import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.List;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.Calendar;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 import br.facom.apsoo.sisauto.dao.ClienteDao;
 import br.facom.apsoo.sisauto.model.Cliente;
 
 public class TelaAdicionaCliente extends JFrame {
-	
+
 	private final JLabel lnome;
 	private final JTextField nome;
 	private final JLabel lcpf;
@@ -31,8 +34,9 @@ public class TelaAdicionaCliente extends JFrame {
 	private final JTextField estado;
 	private Container container;
 	private final JButton salvar;
-	
-	public TelaAdicionaCliente(){
+	private final JLabel jTextPane;
+
+	public TelaAdicionaCliente() {
 		super.setTitle("SisAuto - Adiciona Cliente");
 		super.setSize(300, 300);
 		super.setVisible(true);
@@ -47,30 +51,28 @@ public class TelaAdicionaCliente extends JFrame {
 		cidade = new JTextField(10);
 		estado = new JTextField(2);
 		salvar = new JButton("Salvar");
-		
+
 		salvar.addActionListener(new ActionListener() {
-			
-			@Override
+
 			public void actionPerformed(ActionEvent e) {
 				salvarInfos();
-				
+
 			}
 		});
-		
 
 		container = getContentPane();
 		container.setLayout(new FlowLayout());
-		
+
 		Panel pnome = new Panel();
 		pnome.add(lnome);
 		pnome.add(nome);
 		container.add(pnome);
-		
+
 		Panel pcpf = new Panel();
 		pcpf.add(lcpf);
 		pcpf.add(cpf);
 		container.add(pcpf);
-		
+
 		Panel pend = new Panel();
 		pend.add(lendereco);
 		pend.add(endereco);
@@ -80,28 +82,30 @@ public class TelaAdicionaCliente extends JFrame {
 		pcid.add(lcidade);
 		pcid.add(cidade);
 		container.add(pcid);
-		
 
 		Panel puf = new Panel();
 		puf.add(lestado);
 		puf.add(estado);
 		container.add(puf);
-		
+
 		container.add(salvar);
+
+		jTextPane = new JLabel();
+		container.add(jTextPane);
+		listar();
 	}
-	
-	public void salvarInfos(){
-		
-		
+
+	public void salvarInfos() {
+
 		Cliente cliente = new Cliente();
-		
+
 		cliente.setNome(nome.getText());
 		cliente.setCadastro(cpf.getText());
 		cliente.setEndereco(endereco.getText());
 		cliente.setCidade(cidade.getText());
 		cliente.setEstado(estado.getText());
 		cliente.setDataCadastro(Calendar.getInstance());
-		
+
 		ClienteDao dao = new ClienteDao();
 		try {
 			dao.adicionaCliente(cliente);
@@ -109,7 +113,31 @@ public class TelaAdicionaCliente extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
+		listar();
+
+	}
+
+	private void listar() {
+		ClienteDao dao = new ClienteDao();
+
+		try {
+			java.util.List<Cliente> lista = dao.getAll();
+			String listagem = "Nenhum Cliente Cadastrado";
+			if (!lista.isEmpty()) {
+				listagem="";
+				for (Cliente cliente : lista) {
+
+					listagem = listagem + cliente.getNome() + " \n";
+
+				}
+			}
+			jTextPane.setText(listagem);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

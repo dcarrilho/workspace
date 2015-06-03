@@ -36,18 +36,19 @@ public boolean adicionaVeiculo(Veiculo veiculo) throws SQLException {
 		return false;
 	}
 	
-	public List<Cliente> getAll() throws SQLException{
+	public List<Veiculo> getAll() throws SQLException{
 		
 		Connection con = new ConnectionFactory().getConnection();
 		Statement stm = con.createStatement();
-		List<Cliente> lista = new LinkedList<Cliente>();
+		List<Veiculo> lista = new LinkedList<Veiculo>();
 		
-		ResultSet rs = stm.executeQuery("SELECT * FROM cliente");
+		ResultSet rs = stm.executeQuery("SELECT * FROM veiculo");
 		
 		while(rs.next()){
-			Cliente cliente = new Cliente();
-			cliente.setCadastro(rs.getString("cadastro"));
-			lista.add(cliente);
+			Veiculo veiculo = new Veiculo();
+			veiculo.setMarca(rs.getString("marca"));
+			veiculo.setModelo(rs.getString("modelo"));
+			lista.add(veiculo);
 		}
 		
 		return lista;
