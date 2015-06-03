@@ -15,6 +15,7 @@ import javax.swing.JTextField;
 
 import br.facom.apsoo.sisauto.dao.ClienteDao;
 import br.facom.apsoo.sisauto.dao.VeiculoDao;
+import br.facom.apsoo.sisauto.model.Cliente;
 import br.facom.apsoo.sisauto.model.Veiculo;
 
 public class TelaAdicionaVeiculo extends JFrame {
@@ -27,6 +28,7 @@ public class TelaAdicionaVeiculo extends JFrame {
 	private final JTextField preco;
 	private final Container container;
 	private final JButton salvar;
+	private final JLabel jTextPane;
 
 	public TelaAdicionaVeiculo() {
 		super.setTitle("SisAuto - Adiciona Veículo");
@@ -68,7 +70,7 @@ public class TelaAdicionaVeiculo extends JFrame {
 
 		Panel pPreco = new Panel();
 		preco = new JTextField(20);
-		pPreco.add(new JLabel("Ano Modelo"));
+		pPreco.add(new JLabel("Preço"));
 		pPreco.add(preco);
 		container.add(pPreco);
 
@@ -81,24 +83,26 @@ public class TelaAdicionaVeiculo extends JFrame {
 
 			}
 		});
-		
 
 		container.add(salvar);
 
+		jTextPane = new JLabel();
+		container.add(jTextPane);
+		listar();
+
 	}
-	
-public void salvarInfos(){
-		
-		
+
+	public void salvarInfos() {
+
 		Veiculo veiculo = new Veiculo();
-		
+
 		veiculo.setMarca(marca.getText());
 		veiculo.setModelo(modelo.getText());
 		veiculo.setCor(cor.getText());
 		veiculo.setAnoFabricacao(Integer.parseInt(anoFabricacao.getText()));
 		veiculo.setAnoModelo(Integer.parseInt(anoModelo.getText()));
-		
-		
+		veiculo.setPreco(Double.parseDouble(preco.getText()));
+
 		VeiculoDao dao = new VeiculoDao();
 		try {
 			dao.adicionaVeiculo(veiculo);
@@ -106,7 +110,29 @@ public void salvarInfos(){
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		listar();
+
 	}
 
+	private void listar() {
+		VeiculoDao dao = new VeiculoDao();
+
+		try {
+			java.util.List<Veiculo> lista = dao.getAll();
+			String listagem = "Nenhum Veiculo Cadastrado";
+			if (!lista.isEmpty()) {
+				listagem = "";
+				for (Veiculo veiculo : lista) {
+
+					listagem = listagem + veiculo.getModelo() + " \n";
+
+				}
+			}
+			jTextPane.setText(listagem);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
 }

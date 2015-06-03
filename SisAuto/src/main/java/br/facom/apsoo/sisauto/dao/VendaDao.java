@@ -9,7 +9,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import br.facom.apsoo.sisauto.factory.ConnectionFactory;
-import br.facom.apsoo.sisauto.model.Cliente;
 import br.facom.apsoo.sisauto.model.Venda;
 
 public class VendaDao {
@@ -17,13 +16,12 @@ public class VendaDao {
 public boolean adicionaCliente(Venda venda) throws SQLException {
 		
 		Connection con = new ConnectionFactory().getConnection();
-		Statement stmt = null;
 		
-		String SQL = "INSERT INTO venda VALUES (?,?,?,?)";
+		String SQL = "INSERT INTO venda VALUES (?,?,?)";
 		
         PreparedStatement prepare = con.prepareStatement(SQL);
         
-        prepare.setString(1, venda.getCliente());
+        prepare.setLong(1, venda.getCliente());
         prepare.setLong(2, venda.getVeiculo());
 		prepare.setDate(3, null);
         
@@ -33,18 +31,19 @@ public boolean adicionaCliente(Venda venda) throws SQLException {
 		return false;
 	}
 	
-	public List<Cliente> getAll() throws SQLException{
+	public List<Venda> getAll() throws SQLException{
 		
 		Connection con = new ConnectionFactory().getConnection();
 		Statement stm = con.createStatement();
-		List<Cliente> lista = new LinkedList<Cliente>();
+		List<Venda> lista = new LinkedList<Venda>();
 		
-		ResultSet rs = stm.executeQuery("SELECT * FROM cliente");
+		ResultSet rs = stm.executeQuery("SELECT * FROM venda");
 		
 		while(rs.next()){
-			Cliente cliente = new Cliente();
-			cliente.setCadastro(rs.getString("cadastro"));
-			lista.add(cliente);
+			Venda venda = new Venda();
+			venda.setCliente(rs.getLong("cliente"));
+			venda.setVeiculo(rs.getLong("veiculo"));
+			lista.add(venda);
 		}
 		
 		return lista;

@@ -14,6 +14,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -110,8 +111,7 @@ public class TelaAdicionaCliente extends JFrame {
 		try {
 			dao.adicionaCliente(cliente);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(this, "Cliente Não pode ser Salvo!");
 		}
 
 		listar();

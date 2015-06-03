@@ -4,7 +4,7 @@ import java.util.Calendar;
 
 public class Venda {
 	private long id;
-	private String cliente;
+	private long cliente;
 	private long veiculo;
 	private Calendar dataVenda;
 	
@@ -21,11 +21,11 @@ public class Venda {
 		this.id = id;
 	}
 
-	public String getCliente() {
+	public long getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(String cliente) {
+	public void setCliente(long cliente) {
 		this.cliente = cliente;
 	}
 

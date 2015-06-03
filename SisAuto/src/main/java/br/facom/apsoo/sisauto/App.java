@@ -8,6 +8,7 @@ import br.facom.apsoo.sisauto.dao.Database;
 import br.facom.apsoo.sisauto.dao.VeiculoDao;
 import br.facom.apsoo.sisauto.model.Cliente;
 import br.facom.apsoo.sisauto.model.Veiculo;
+import br.facom.apsoo.sisauto.tela.TelaAdicionaVeiculo;
 import br.facom.apsoo.sisauto.tela.TelaInicial;
 
 /**
@@ -20,7 +21,8 @@ public class App {
 		TelaInicial inicial = new TelaInicial();
 		inicial.setVisible(true);
 		inicial.setSize(300, 300);
-		//
+		
+//		new TelaAdicionaVeiculo();
 		try {
 			Database base = new Database();
 		} catch (SQLException e) {

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,7 +18,6 @@ public class ClienteDao {
 	public boolean adicionaCliente(Cliente cliente) throws SQLException {
 		
 		Connection con = new ConnectionFactory().getConnection();
-		Statement stmt = null;
 		
 		String SQL = "INSERT INTO cliente VALUES (?,?,?,?,?,?)";
 		
@@ -28,7 +28,10 @@ public class ClienteDao {
         prepare.setString(3, cliente.getEndereco());
         prepare.setString(4, cliente.getCidade());
         prepare.setString(5, cliente.getEstado());
-		prepare.setDate(6, null);
+        java.util.Date date = new Date(Calendar.getInstance().getTimeInMillis());
+		prepare.setDate(6, new java.sql.Date(date.getTime()));
+		System.out.println(date.getTime());
+		System.out.println(Calendar.getInstance().getTimeInMillis());
         
         prepare.execute();
 

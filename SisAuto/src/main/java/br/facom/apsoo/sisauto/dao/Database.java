@@ -23,11 +23,13 @@ public class Database {
 		System.out.println("Tabela cliente criada...");
 		
 		stm.executeUpdate("CREATE TABLE IF NOT EXISTS veiculo ( id INTEGER PRIMARY KEY AUTOINCREMENT,"
+				+ " marca varchar(70),"
 				+ " modelo varchar(70),"
 				+ " cor varchar(14),"
 				+ " ano_fabricacao integer,"
 				+ " ano_modelo integer,"
-				+ " preco real);");
+				+ " preco real,"
+				+ " vendido boolean);");
 		
 		System.out.println("Tabela veiculo criada...");
 		
