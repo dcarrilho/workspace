@@ -8,8 +8,10 @@ import br.facom.apsoo.sisauto.dao.Database;
 import br.facom.apsoo.sisauto.dao.VeiculoDao;
 import br.facom.apsoo.sisauto.model.Cliente;
 import br.facom.apsoo.sisauto.model.Veiculo;
+import br.facom.apsoo.sisauto.tela.TelaAdicionaCliente;
 import br.facom.apsoo.sisauto.tela.TelaAdicionaVeiculo;
 import br.facom.apsoo.sisauto.tela.TelaInicial;
+import br.facom.apsoo.sisauto.tela.TelaVenda;
 
 /**
  * Hello world!
@@ -18,11 +20,11 @@ import br.facom.apsoo.sisauto.tela.TelaInicial;
 public class App {
 	public static void main(String[] args) {
 
-		TelaInicial inicial = new TelaInicial();
-		inicial.setVisible(true);
-		inicial.setSize(300, 300);
+//		TelaInicial inicial = new TelaInicial();
+//		inicial.setVisible(true);
+//		inicial.setSize(300, 300);
 		
-//		new TelaAdicionaVeiculo();
+		new TelaVenda();
 		try {
 			Database base = new Database();
 		} catch (SQLException e) {

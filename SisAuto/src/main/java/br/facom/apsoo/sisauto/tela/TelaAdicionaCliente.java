@@ -2,6 +2,7 @@ package br.facom.apsoo.sisauto.tela;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.List;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
@@ -36,11 +38,13 @@ public class TelaAdicionaCliente extends JFrame {
 	private Container container;
 	private final JButton salvar;
 	private final JLabel jTextPane;
+	
+	//paineis
+//	private final JPanel clienteJPanel;
+//	private final JPanel endJPanel;
 
 	public TelaAdicionaCliente() {
 		super.setTitle("SisAuto - Adiciona Cliente");
-		super.setSize(300, 300);
-		super.setVisible(true);
 		lnome = new JLabel("Nome");
 		lcpf = new JLabel("CPF/CNPJ");
 		lendereco = new JLabel("Endereco");
@@ -52,7 +56,6 @@ public class TelaAdicionaCliente extends JFrame {
 		cidade = new JTextField(10);
 		estado = new JTextField(2);
 		salvar = new JButton("Salvar");
-
 		salvar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -61,39 +64,41 @@ public class TelaAdicionaCliente extends JFrame {
 			}
 		});
 
-		container = getContentPane();
-		container.setLayout(new FlowLayout());
+		GridLayout layout = new GridLayout(6, 2);
+		setLayout(layout);
 
 		Panel pnome = new Panel();
 		pnome.add(lnome);
 		pnome.add(nome);
-		container.add(pnome);
+		add(pnome);
 
 		Panel pcpf = new Panel();
 		pcpf.add(lcpf);
 		pcpf.add(cpf);
-		container.add(pcpf);
+		add(pcpf);
 
 		Panel pend = new Panel();
 		pend.add(lendereco);
 		pend.add(endereco);
-		container.add(pend);
+		add(pend);
 
 		Panel pcid = new Panel();
 		pcid.add(lcidade);
 		pcid.add(cidade);
-		container.add(pcid);
+		add(pcid);
 
 		Panel puf = new Panel();
 		puf.add(lestado);
 		puf.add(estado);
-		container.add(puf);
+		add(puf);
 
-		container.add(salvar);
+		add(salvar);
 
 		jTextPane = new JLabel();
-		container.add(jTextPane);
-		listar();
+		
+
+		super.setSize(300, 300);
+		super.setVisible(true);
 	}
 
 	public void salvarInfos() {
