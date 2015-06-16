@@ -23,8 +23,13 @@ public class App {
 //		TelaInicial inicial = new TelaInicial();
 //		inicial.setVisible(true);
 //		inicial.setSize(300, 300);
-		
-		new TelaVenda();
+//		
+		try {
+			new TelaVenda();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		try {
 			Database base = new Database();
 		} catch (SQLException e) {

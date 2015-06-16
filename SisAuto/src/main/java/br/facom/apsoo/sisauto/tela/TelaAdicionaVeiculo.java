@@ -33,7 +33,7 @@ public class TelaAdicionaVeiculo extends JFrame {
 	public TelaAdicionaVeiculo() {
 		super.setTitle("SisAuto - Adiciona Veículo");
 
-		GridLayout layout = new GridLayout(7, 2, 5, 5);
+		GridLayout layout = new GridLayout(7, 2);
 		setLayout(layout);
 		
 		Panel pMarca = new Panel();
