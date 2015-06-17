@@ -39,12 +39,9 @@ public class TelaInicial extends JFrame{
 		venda.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				try {
+				
 					new TelaVenda();
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				
 				
 			}
 		});

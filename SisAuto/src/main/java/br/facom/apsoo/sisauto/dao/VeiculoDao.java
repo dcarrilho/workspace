@@ -50,6 +50,7 @@ public class VeiculoDao {
 			lista.add(veiculo);
 		}
 
+		con.close();
 		return lista;
 	}
 
@@ -64,42 +65,55 @@ public class VeiculoDao {
 			while (rs.next()) {
 				lista.add(rs.getString("marca"));
 			}
+			con.close();
 		} catch (SQLException e) {
 		}
 
+		
 		return lista;
 	}
 
 	public List<String> getModelo(String smarca) throws SQLException {
-		if (smarca != "Selecione") {
-			Connection con = new ConnectionFactory().getConnection();
-			List<String> lista = new LinkedList<String>();
-			ResultSet rs;
-				Statement stm = con.createStatement();
-				rs = stm.executeQuery("SELECT DISTINCT modelo FROM veiculo where marca = '"+smarca+"'");
-				while (rs.next()) {
-					lista.add(rs.getString("modelo"));
-					
-				}
-			System.out.println(lista.isEmpty());
-			return lista;
+		Connection con = new ConnectionFactory().getConnection();
+		List<String> lista = new LinkedList<String>();
+		ResultSet rs;
+		Statement stm = con.createStatement();
+		rs = stm.executeQuery("SELECT DISTINCT modelo FROM veiculo where marca = '"
+				+ smarca + "'");
+		while (rs.next()) {
+			lista.add(rs.getString("modelo"));
 		}
-		return null;
+		con.close();
+		return lista;
 	}
 
 	public List<String> getCor(String smodelo) throws SQLException {
-			Connection con = new ConnectionFactory().getConnection();
-			List<String> lista = new LinkedList<String>();
-			ResultSet rs;
-				Statement stm = con.createStatement();
-				rs = stm.executeQuery("SELECT DISTINCT cor FROM veiculo where modelo = '"+smodelo+"'");
-				while (rs.next()) {
-					lista.add(rs.getString("cor"));
-					
-				}
-			System.out.println(lista.isEmpty());
-			return lista;
-	
+		Connection con = new ConnectionFactory().getConnection();
+		List<String> lista = new LinkedList<String>();
+		ResultSet rs;
+		Statement stm = con.createStatement();
+		rs = stm.executeQuery("SELECT DISTINCT cor FROM veiculo where modelo = '"
+				+ smodelo + "'");
+		while (rs.next()) {
+			lista.add(rs.getString("cor"));
+		}
+		con.close();
+		return lista;
+
+	}
+
+	public List<String> getAno(String scor) throws SQLException {
+		Connection con = new ConnectionFactory().getConnection();
+		List<String> lista = new LinkedList<String>();
+		ResultSet rs;
+		Statement stm = con.createStatement();
+		rs = stm.executeQuery("SELECT DISTINCT ano_fabricacao FROM veiculo where cor = '"
+				+ scor + "'");
+		while (rs.next()) {
+			lista.add(rs.getString("ano_fabricacao"));
+		}
+		con.close();
+		return lista;
 	}
 
 }
