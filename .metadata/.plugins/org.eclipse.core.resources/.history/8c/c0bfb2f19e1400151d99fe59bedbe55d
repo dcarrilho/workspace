@@ -1,0 +1,142 @@
+package br.facom.apsoo.sisauto.tela;
+
+import java.awt.BorderLayout;
+import java.awt.Button;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JTextField;
+
+import br.facom.apsoo.sisauto.dao.VeiculoDao;
+
+public class TelaVenda extends JFrame {
+
+	private JTextField cliente;
+	private Button buscarCliente;
+	private JComboBox marca;
+	private JComboBox modelo;
+	private final JComboBox cor;
+	private String smarca, smodelo, scor, sano, spreco;
+	private JPanel painelCliente, painelVeiculo, painelConclusao;
+	VeiculoDao dao;
+
+	public TelaVenda() throws SQLException {
+		super("Vendas - SisAuto");
+
+		setLayout(new BorderLayout(5, 5));
+		painelCliente = new JPanel(new FlowLayout(FlowLayout.LEFT));
+		
+		this.cliente = new JTextField(20);
+		this.cliente.setText("Cliente...");
+
+		painelCliente.add(cliente);
+		painelCliente.add(new JButton("Buscar"));
+		add(painelCliente, BorderLayout.NORTH);
+		
+		this.marca = new JComboBox();
+		this.modelo = new JComboBox();
+		this.cor = new JComboBox();
+		painelVeiculo = new JPanel(new GridLayout(3, 1, 5, 5));
+
+		painelVeiculo.add(marca);
+		painelVeiculo.add(modelo);
+		painelVeiculo.add(cor);
+		
+		add(painelVeiculo, BorderLayout.CENTER);
+		
+		painelConclusao = new JPanel();
+		painelConclusao.add(new JRadioButton("A vista"));
+		painelConclusao.add(new JRadioButton("Financiado"));
+		
+		painelConclusao.add(new JButton("Finalizar>"));
+		
+		add(painelConclusao, BorderLayout.SOUTH);
+
+		setSize(400, 300);
+		
+		setVisible(true);
+
+	}
+
+	// constroeLayout();
+	// atualizaMarca();
+	//
+	// }
+	//
+	// private void atualizaMarca() {
+	// List<String> lista;
+	//
+	// marca.addItem("Marca");
+	// lista = dao.getAllMarca();
+	// for (String string : lista) {
+	// marca.addItem(string);
+	//
+	// }
+	//
+	// }
+	//
+	// private void constroeLayout() {
+	// setLayout(new GridLayout(8, 1, 5, 5));
+	//
+	// dao = new VeiculoDao();
+	// layout = new FlowLayout();
+	//
+	// cliente = new JLabel("Cliente:");
+	// buscarCliente = new Button("buscar");
+	// JPanel jPanelCliente = new JPanel(layout);
+	// jPanelCliente.add(cliente);
+	// jPanelCliente.add(buscarCliente);
+	// add(jPanelCliente);
+	//
+	// marca = new JComboBox();
+	// JPanel panelMarca = new JPanel(layout);
+	// marca.addItemListener(new ItemListener() {
+	//
+	// public void itemStateChanged(ItemEvent e) {
+	// smarca = (String) marca.getSelectedItem();
+	// try {
+	// atualizaModelo(smarca);
+	// } catch (SQLException e1) {
+	// e1.printStackTrace();
+	// }
+	// }
+	//
+	// });
+	//
+	// panelMarca.add(marca);
+	// add(panelMarca);
+	//
+	// modelo = new JComboBox();
+	// // JPanel panelModelo = new JPanel(layout);
+	// // panelModelo.add(new JLabel("Modelo"));
+	// // panelModelo.add(modelo);
+	// // add(panelModelo);
+	// add(modelo);
+	//
+	//
+	// }
+	//
+	// private void atualizaModelo(String smarca) throws SQLException {
+	// if (!smarca.equalsIgnoreCase("marca")) {
+	// List<String> lista;
+	// remove(modelo);
+	// this.modelo = new JComboBox();
+	// add(new JPanel(new FlowLayout()).add(modelo));
+	//
+	// this.modelo.addItem("Modelo");
+	// lista = dao.getModelo(smarca);
+	// for (String string : lista) {
+	// this.modelo.addItem(string);
+	//
+	// }
+	// }
+	// }
+
+}

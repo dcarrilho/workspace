@@ -1,0 +1,32 @@
+package br.facom.apsoo.sisauto.tela;
+
+import java.awt.BorderLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+public class TelaVenda extends JFrame{
+
+	private final JTextField cliente;
+	
+	private final JPanel clienteJPanel;
+	
+	public TelaVenda(){
+		super("Vendas SisAuto");
+		
+		clienteJPanel =new JPanel();
+		clienteJPanel.setLayout(new BorderLayout());
+		add(new JLabel("Cliente"));
+		cliente = new JTextField();
+		add(cliente);
+		
+		
+	
+		
+		super.setSize(300, 300);
+		super.setVisible(true);
+	}
+
+}

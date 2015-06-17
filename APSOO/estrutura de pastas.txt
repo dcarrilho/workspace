@@ -1,0 +1,10 @@
+doc            => Documentos
+    - trunk    => versão atual dos documentos
+    - tags     => pastas com os "releases" entregues ao professor
+    - branches => enfeite por enquanto ;)
+
+
+system            => o sistema em si, ainda não sei acerca da organização interna dentro da trunk
+       - trunk    => versão atual dos documentos
+       - tags     => pastas com os "releases" entregues ao professor
+       - branches => enfeite por enquanto ;)

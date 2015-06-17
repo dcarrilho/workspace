@@ -1,0 +1,110 @@
+package br.facom.apsoo.sisauto.tela;
+
+import java.awt.Button;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
+import br.facom.apsoo.sisauto.dao.VeiculoDao;
+
+public class TelaVenda extends JFrame {
+
+	private JLabel cliente;
+	private Button buscarCliente;
+	private JComboBox marca;
+	private JComboBox modelo;
+	// private final JComboBox cor;
+	// private final JTextField ano;
+	// private final JTextField preco;
+	// private final JTextField pagamento;
+	private String smarca, smodelo, scor, sano, spreco;
+
+	VeiculoDao dao;
+
+	public TelaVenda() throws SQLException {
+		super("Vendas - SisAuto");
+
+		constroeLayout();
+		atualizaMarca();
+
+	}
+
+	private void atualizaMarca() {
+		List<String> lista;
+
+		marca.addItem("selecionar");
+		lista = dao.getAllMarca();
+		for (String string : lista) {
+			marca.addItem(string);
+
+		}
+
+	}
+
+	private void constroeLayout() {
+		setLayout(new GridLayout(8, 1, 5, 5));
+
+		dao = new VeiculoDao();
+		FlowLayout layout = new FlowLayout();
+		layout.setAlignment(FlowLayout.LEFT);
+
+		cliente = new JLabel("Cliente:");
+		buscarCliente = new Button("buscar");
+		JPanel jPanelCliente = new JPanel(layout);
+		jPanelCliente.add(cliente);
+		jPanelCliente.add(buscarCliente);
+		add(jPanelCliente);
+
+		marca = new JComboBox();
+		JPanel panelMarca = new JPanel(layout);
+		marca.addItemListener(new ItemListener() {
+
+			public void itemStateChanged(ItemEvent e) {
+				smarca = (String) marca.getSelectedItem();
+				try {
+					atualizaModelo(smarca);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+				}
+			}
+
+		});
+
+		panelMarca.add(new JLabel("Marca"));
+		panelMarca.add(marca);
+		add(panelMarca);
+
+		modelo = new JComboBox();
+		JPanel panelModelo = new JPanel(layout);
+		panelModelo.add(new JLabel("Modelo"));
+		panelModelo.add(modelo);
+		add(panelModelo);
+
+		setSize(300, 300);
+		setVisible(true);
+	}
+
+	private void atualizaModelo(String smarca) throws SQLException {
+		if (smarca.equalsIgnoreCase("selecionar")) {
+			List<String> lista;
+
+			this.modelo.removeAll();
+
+			this.modelo.addItem("selecionar");
+			lista = dao.getModelo(smarca);
+			for (String string : lista) {
+				this.modelo.addItem(string);
+
+			}
+		}
+	}
+
+}

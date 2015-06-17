@@ -1,0 +1,13 @@
+Configurações de Bando de dados no Config.java
+Banco de dados em mysql
+
+dados default:
+banco: "sisauto"
+usuario: "sisauto"
+senha: "sisauto"
+host: "localhost"
+porta: "3306"
+
+O sistema de encarrega de criar as tabelas necessárias caso as mesmas não sejam encontradas
+
+Executar o sistema e em seguida os script sql de população de banco de dados: cliente.sql, veiculo.sql

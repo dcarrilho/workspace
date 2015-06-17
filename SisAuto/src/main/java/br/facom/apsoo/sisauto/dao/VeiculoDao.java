@@ -87,4 +87,19 @@ public class VeiculoDao {
 		return null;
 	}
 
+	public List<String> getCor(String smodelo) throws SQLException {
+			Connection con = new ConnectionFactory().getConnection();
+			List<String> lista = new LinkedList<String>();
+			ResultSet rs;
+				Statement stm = con.createStatement();
+				rs = stm.executeQuery("SELECT DISTINCT cor FROM veiculo where modelo = '"+smodelo+"'");
+				while (rs.next()) {
+					lista.add(rs.getString("cor"));
+					
+				}
+			System.out.println(lista.isEmpty());
+			return lista;
+	
+	}
+
 }
