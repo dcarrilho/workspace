@@ -40,6 +40,7 @@ public class TelaVenda extends JFrame {
 		layout = new GridBagLayout();
 		constraints = new GridBagConstraints();
 		setLayout(layout);
+		constraints.anchor = GridBagConstraints.WEST;
 
 		cliente = new JTextField(50);
 		preco = new JTextField(20);
@@ -91,72 +92,69 @@ public class TelaVenda extends JFrame {
 			}
 		});
 
-		addComp(new JLabel("Nome: "), 0, 0, 1, 1, 0, 0, GridBagConstraints.BOTH);
-		addComp(cliente, 0, 2, 7, 1, 15, 0, GridBagConstraints.BOTH);
-		addComp(buscar, 0, 9, 1, 1, 0, 0, GridBagConstraints.BOTH);
+		addComp(new JLabel("Nome: "), 0, 0, 1, 1, GridBagConstraints.HORIZONTAL);
+		addComp(cliente, 0, 1, 1, 3, GridBagConstraints.HORIZONTAL);
+		addComp(buscar, 0, 5, 1, 1, GridBagConstraints.HORIZONTAL);
 
-		addComp(new JLabel("Marca: "), 1, 0, 1, 1, 0, 0,
+		addComp(marca, 1, 1, 1, 3, GridBagConstraints.HORIZONTAL);
+		addComp(new JLabel("Marca: "), 1, 0, 1, 1, 
 				GridBagConstraints.HORIZONTAL);
 
-		addComp(new JLabel("Modelo: "), 2, 0, 1, 1, 0, 0,
+		addComp(new JLabel("Modelo: "), 2, 0, 1, 1,
 				GridBagConstraints.HORIZONTAL);
-		addComp(modelo, 2, 1, 5, 1, 10, 0, GridBagConstraints.HORIZONTAL);
-		
-		 addComp(new JLabel("Cor"), 3, 0, 1, 1, 0, 0,
+		addComp(modelo, 2, 1, 1, 3, GridBagConstraints.HORIZONTAL);
+//		
+		 addComp(new JLabel("Cor"), 3, 0, 1, 1,
 		 GridBagConstraints.HORIZONTAL);
-		 addComp(cor, 3, 1, 5, 1, 10, 0, GridBagConstraints.HORIZONTAL);
-		
-		 addComp(new JLabel("Ano"), 4, 0, 1, 1, 0, 0,
+		 addComp(cor, 3, 1, 1, 3, GridBagConstraints.HORIZONTAL);
+//		
+		 addComp(new JLabel("Ano"), 4, 0, 1, 1,
 		 GridBagConstraints.HORIZONTAL);
-		 addComp(ano, 4, 1, 5, 1, 10, 0, GridBagConstraints.HORIZONTAL);
-		
-		 addComp(new JLabel("Preço: "), 5, 0, 1, 1, 0, 0,
-		 GridBagConstraints.BOTH);
-		 addComp(preco, 5, 2, 7, 1, 7, 0, GridBagConstraints.BOTH);
-		 
+		 addComp(ano, 4, 1, 1, 3, GridBagConstraints.HORIZONTAL);
+//		
+		 addComp(new JLabel("Preço: "), 5, 0, 1, 1,
+		 GridBagConstraints.HORIZONTAL);
+		 addComp(preco, 5, 1, 1, 3, GridBagConstraints.HORIZONTAL);
+//		 
 		 ButtonGroup group = new ButtonGroup();
 		 vista = new JRadioButton("A Vista");
 		 prazo = new JRadioButton("Financiado");
 		 group.add(vista);
 		 group.add(prazo);
-
-		 addComp(vista, 6, 0, 1, 0, 0, 0, GridBagConstraints.HORIZONTAL);
-		 addComp(prazo, 6, 1, 0, 0, 0, 0, GridBagConstraints.HORIZONTAL);
-		 
+//
+		 addComp(vista, 6, 0, 1, 1, GridBagConstraints.HORIZONTAL);
+		 addComp(prazo, 6, 1, 1, 1, GridBagConstraints.HORIZONTAL);
+//		 
 		 cancelar = new JButton("Cancelar");
 		 finalizar = new JButton("Confirmar");
-		 
-
-		 addComp(cancelar, 7, 0, 1, 0, 1, 0, GridBagConstraints.BOTH);
-		 addComp(finalizar, 7, 1, 0, 0, 1, 0, GridBagConstraints.BOTH);
+//		 
+//
+		 addComp(cancelar, 9, 0, 1, 1,  GridBagConstraints.HORIZONTAL);
+		 addComp(finalizar, 9, 2, 1, 1, GridBagConstraints.HORIZONTAL);
 		 
 		atualizaMarca();
 
-		setSize(300, 300);
+		setSize(400, 500);
 		setVisible(true);
 
 	}
 
-	private void addComp(Component component, int row, int column, int gw,
-			int gh, int wx, int wy, int fill) {
-		constraints.gridx = column;
-		constraints.gridy = row;
-		constraints.gridheight = gh;
-		constraints.gridwidth = gw;
-		constraints.weightx = wx;
-		constraints.weighty = wy;
-		constraints.fill = fill;
+	private void addComp(Component component, int row, int column, int gh,
+			int gw, int fill) {
+		constraints.gridx = column; //coluna em que o componente será colocado
+		constraints.gridy = row; //linha em que o componente será colocado
+		constraints.gridheight = gh; //numero de linhas que o componente ocupa
+		constraints.gridwidth = gw; //numero de colunas que o componente ocupa
+		constraints.fill = fill; //redireciona o componente na direção especificada
 		layout.setConstraints(component, constraints);
 		add(component);
 	}
 
 	private void atualizaMarca() {
-		System.out.println("--Entrou MARCA");
 		List<String> lista = dao.getAllMarca();
 		marca.addItem("Selecione");
 		for (String string : lista)
 			marca.addItem(string);
-		addComp(marca, 1, 1, 5, 1, 10, 0, GridBagConstraints.HORIZONTAL);
 	}
 
 	private void atualizaModelo(String smarca) throws SQLException {
