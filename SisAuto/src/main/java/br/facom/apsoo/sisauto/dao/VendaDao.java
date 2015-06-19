@@ -13,19 +13,21 @@ import br.facom.apsoo.sisauto.model.Venda;
 
 public class VendaDao {
 	
-public boolean adicionaCliente(Venda venda) throws SQLException {
+public boolean adicionaVenda(Venda venda) throws SQLException {
 		
 		Connection con = new ConnectionFactory().getConnection();
 		
-		String SQL = "INSERT INTO venda VALUES (?,?,?)";
+		String SQL = "INSERT INTO venda VALUES (?,?,?,?)";
 		
         PreparedStatement prepare = con.prepareStatement(SQL);
         
-        prepare.setLong(1, venda.getCliente());
-        prepare.setLong(2, venda.getVeiculo());
-		prepare.setDate(3, null);
+        prepare.setLong(2, venda.getCliente());
+        prepare.setLong(3, venda.getVeiculo());
+		prepare.setDate(4, null);
         
         prepare.execute();
+        
+        con.close();
 
         System.out.println("Add success");
 		return false;

@@ -30,6 +30,8 @@ public class VeiculoDao {
 		prepare.setBoolean(8, false);
 
 		prepare.execute();
+		
+		con.close();
 
 		System.out.println("Veiculo Add success");
 		return false;
@@ -114,6 +116,35 @@ public class VeiculoDao {
 		}
 		con.close();
 		return lista;
+	}
+
+	public Veiculo getVeiculo(String smarca, String smodelo, String scor,
+			String sano) throws SQLException {
+		if(!sano.equalsIgnoreCase("selecione")){
+		Connection con = new ConnectionFactory().getConnection();
+		ResultSet rs;
+		Statement stm = con.createStatement();
+		rs = stm.executeQuery("SELECT DISTINCT ano_fabricacao FROM veiculo where cor = '"
+				+ scor + "'");
+	
+			Veiculo veiculo = new Veiculo();
+			if (rs.isFirst()) {
+			veiculo.setMarca(rs.getString("marca"));
+			veiculo.setModelo(rs.getString("modelo"));
+			veiculo.setCor(rs.getString("cor"));
+			veiculo.setAnoFabricacao(rs.getInt("ano_fabricacao"));
+			veiculo.setId(rs.getLong("id"));
+			}
+		con.close();
+		return veiculo;
+		}
+		return null;
+	}
+
+	public void setVenda(long id) throws SQLException {
+		Connection con = new ConnectionFactory().getConnection();
+		PreparedStatement prepare = con.prepareStatement("UPDATE veiculo SET vendido = true WHERE id = "+id);
+		prepare.execute();
 	}
 
 }

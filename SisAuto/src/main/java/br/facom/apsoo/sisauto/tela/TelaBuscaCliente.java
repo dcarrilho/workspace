@@ -1,29 +1,22 @@
 package br.facom.apsoo.sisauto.tela;
 
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
-import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.ParseException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
+
+import br.facom.apsoo.sisauto.model.Cliente;
 
 public class TelaBuscaCliente extends JFrame {
 	JButton buscarCliente, cancelar;
@@ -34,11 +27,19 @@ public class TelaBuscaCliente extends JFrame {
 	JScrollPane scrollpane;
 	String[] colunas = { "Nome", "CPF" };
 	JTable tabela;
+	
+	private GridBagConstraints constraints;
+	private GridBagLayout layout;
 
 	int idRequest;
 	
-	public TelaBuscaCliente() {
+	private Cliente cliente;
+	
+	private void construtorTela() {
 		
+		layout = new GridBagLayout();
+		constraints = new GridBagConstraints();
+		setLayout(layout);
 		MaskFormatter mascaraCpf;
 		
 		try {
@@ -59,32 +60,50 @@ public class TelaBuscaCliente extends JFrame {
 		labelClienteCpf = new JLabel("CPF:");
 
 		textClienteNome = new JTextField(100);
-		
-		JPanel busca = new JPanel();
-		busca.setLayout(new GridBagLayout());
-		
+				
 
-		busca.add(labelClienteNome);
-		busca.add(textClienteNome);
-		busca.add(labelClienteCpf);
-		busca.add(textClienteCpf);
-		busca.add(buscarCliente);
-		busca.add(cancelar);
+		addComp(labelClienteNome, 0, 0 , 1, 1, GridBagConstraints.HORIZONTAL);
 		
-		add(busca);
+		addComp(labelClienteCpf, 1, 0 , 1, 1, GridBagConstraints.HORIZONTAL);
+		
+		addComp(buscarCliente, 2, 2 , 1, 1, GridBagConstraints.HORIZONTAL);
+		
+		constraints.weightx = 7;
+		addComp(textClienteNome, 0, 1 , 1, 3, GridBagConstraints.HORIZONTAL);
+		addComp(textClienteCpf, 1, 1 , 1, 3, GridBagConstraints.HORIZONTAL);
+	
 
 		add(scrollpane);
 
 		JPanel resultado = new JPanel();
 		resultado.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-		add(resultado);
+
+		addComp(resultado, 3, 0 , 1, 3, GridBagConstraints.HORIZONTAL);
 		
 		setVisible(true);
-		setSize(200, 200);
+		setSize(250, 200);
 		revalidate();
 		repaint();
 		
+	}
+	
+	private void addComp(Component component, int row, int column, int gh,
+			int gw, int fill) {
+		constraints.gridx = column; //coluna em que o componente será colocado
+		constraints.gridy = row; //linha em que o componente será colocado
+		constraints.gridheight = gh; //numero de linhas que o componente ocupa
+		constraints.gridwidth = gw; //numero de colunas que o componente ocupa
+		constraints.fill = fill; //redireciona o componente na direção especificada
+		layout.setConstraints(component, constraints);
+		add(component);
+	}
+	
+	public Cliente buscar(){
+		
+		construtorTela();
+		
+		return this.cliente;
 	}
 
 }

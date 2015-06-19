@@ -17,7 +17,7 @@ import br.facom.apsoo.sisauto.tela.TelaVenda;
 public class App {
 	public static void main(String[] args) {
 
-//		 TelaInicial inicial = new TelaInicial();
+		 TelaInicial inicial = new TelaInicial();
 		// inicial.setVisible(true);
 		// inicial.setSize(300, 300);
 		try {
@@ -27,7 +27,7 @@ public class App {
 		}
 
 //		new TelaVenda();
-		new TelaBuscaCliente();
+//		new TelaBuscaCliente();
 
 	}
 }
