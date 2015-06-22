@@ -1,5 +1,6 @@
 package br.facom.apsoo.sisauto.tela;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -9,6 +10,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -17,13 +19,16 @@ import javax.swing.JOptionPane;
 import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 
+import br.facom.apsoo.sisauto.Controller;
 import br.facom.apsoo.sisauto.dao.VeiculoDao;
 import br.facom.apsoo.sisauto.dao.VendaDao;
 import br.facom.apsoo.sisauto.model.Cliente;
 import br.facom.apsoo.sisauto.model.Veiculo;
 import br.facom.apsoo.sisauto.model.Venda;
 
-public class TelaVenda extends JFrame {
+public class TelaVenda extends JFrame{
+
+	Controller controller;
 
 	private Veiculo veiculo;
 	private Cliente cliente;
@@ -40,7 +45,9 @@ public class TelaVenda extends JFrame {
 	private GridBagLayout layout;
 	private GridBagConstraints constraints;
 
-	public TelaVenda() {
+	public TelaVenda(Controller control) {
+		super("SisAuto - Venda");
+		this.controller = control;
 		dao = new VeiculoDao();
 		layout = new GridBagLayout();
 		constraints = new GridBagConstraints();
@@ -48,14 +55,13 @@ public class TelaVenda extends JFrame {
 		constraints.anchor = GridBagConstraints.WEST;
 
 		tCliente = new JTextField(50);
+		tCliente.setEditable(false);
 		preco = new JTextField(20);
 		buscar = new JButton("Buscar");
 		buscar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				TelaBuscaCliente bCliente = new TelaBuscaCliente();
-
-				cliente = bCliente.buscar();
+				controller.buscarCliente(getClass());
 
 			}
 		});
@@ -64,13 +70,11 @@ public class TelaVenda extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				smarca = (String) marca.getSelectedItem();
+				if (!smarca.equalsIgnoreCase("Selecione"))
+					marca.setEnabled(false);
 				try {
-					reset(modelo);
-					reset(cor);
-					reset(ano);
 					atualizaModelo(smarca);
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -80,9 +84,9 @@ public class TelaVenda extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				smodelo = (String) modelo.getSelectedItem();
+				if (!smodelo.equalsIgnoreCase("Selecione"))
+					modelo.setEnabled(false);
 				try {
-					reset(cor);
-					reset(ano);
 					atualizaCor(smodelo);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -95,8 +99,9 @@ public class TelaVenda extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				scor = (String) cor.getSelectedItem();
+				if (!scor.equalsIgnoreCase("Selecione"))
+					cor.setEnabled(false);
 				try {
-
 					atualizaAno(scor);
 				} catch (SQLException e1) {
 					e1.printStackTrace();
@@ -109,9 +114,9 @@ public class TelaVenda extends JFrame {
 
 			public void actionPerformed(ActionEvent e) {
 				sano = (String) ano.getSelectedItem();
-				veiculo = buscarVeiculo();
+				buscarVeiculo();
 				if (veiculo != null)
-					preco.setText("" + veiculo.getPreco());
+					preco.setText(String.valueOf(veiculo.getPreco()));
 
 			}
 
@@ -141,6 +146,7 @@ public class TelaVenda extends JFrame {
 		//
 		ButtonGroup group = new ButtonGroup();
 		vista = new JRadioButton("A Vista");
+
 		prazo = new JRadioButton("Financiado");
 		group.add(vista);
 		group.add(prazo);
@@ -148,15 +154,23 @@ public class TelaVenda extends JFrame {
 		addComp(vista, 6, 0, 1, 1, GridBagConstraints.HORIZONTAL);
 		addComp(prazo, 6, 1, 1, 1, GridBagConstraints.HORIZONTAL);
 		//
-		cancelar = new JButton("Cancelar");
+		cancelar = new JButton("Nova Pesquisa");
 		finalizar = new JButton("Confirmar");
+
+		cancelar.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				controller.venderVeiculo();
+				dispose();
+			}
+		});
+
 		finalizar.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
 				try {
 					finalizarVenda();
 				} catch (SQLException e1) {
-					System.out.println("Problemas na venda");
 					e1.printStackTrace();
 				}
 			}
@@ -168,8 +182,9 @@ public class TelaVenda extends JFrame {
 
 		atualizaMarca();
 
-		setSize(400, 350);
+//		setSize(400, 350);
 		setVisible(true);
+		pack();
 
 	}
 
@@ -185,6 +200,7 @@ public class TelaVenda extends JFrame {
 		add(component);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void atualizaMarca() {
 		List<String> lista = dao.getAllMarca();
 		marca.addItem("Selecione");
@@ -192,6 +208,7 @@ public class TelaVenda extends JFrame {
 			marca.addItem(string);
 	}
 
+	@SuppressWarnings("unchecked")
 	private void atualizaModelo(String smarca) throws SQLException {
 
 		if (!smarca.equalsIgnoreCase("Selecione")
@@ -207,6 +224,7 @@ public class TelaVenda extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void atualizaCor(String smodelo) throws SQLException {
 		if (smodelo != null && !smodelo.equalsIgnoreCase("")
 				&& !smodelo.equalsIgnoreCase("Selecione")) {
@@ -221,9 +239,9 @@ public class TelaVenda extends JFrame {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	private void atualizaAno(String scor) throws SQLException {
 
-		System.out.println(scor);
 		if (scor != null && !scor.equalsIgnoreCase("")
 				&& !scor.equalsIgnoreCase("Selecione")) {
 			ano.removeAllItems();
@@ -238,34 +256,55 @@ public class TelaVenda extends JFrame {
 	}
 
 	private void finalizarVenda() throws SQLException {
-		Venda venda = new Venda();
-		System.out.println("-- " + veiculo.getId());
-		venda.setVeiculo(veiculo.getId());
-		// venda.setCliente(cliente.getId());
-		venda.setCliente(1);
-		VendaDao vendaDao = new VendaDao();
-		vendaDao.adicionaVenda(venda);
-		dao.setVenda(veiculo.getId());
-		new JOptionPane("Vendido").showConfirmDialog(this,
-				"id:" + veiculo.getId() + "\n" + veiculo.getMarca());
+		if (veiculo != null && cliente != null) {
+			if (!vista.isSelected() && !prazo.isSelected()) {
+				prazo.setBackground(Color.red);
+				vista.setBackground(Color.red);
+			} else {
+				Venda venda = new Venda();
+				venda.setVeiculo(veiculo.getId());
+				venda.setCliente(cliente.getCadastro());
+				if (prazo.isSelected())
+					venda.setFinanciado(true);
+				else
+					venda.setFinanciado(false);
+				VendaDao vendaDao = new VendaDao();
+				vendaDao.adicionaVenda(venda);
+				dao.setVenda(veiculo.getId());
+				controller.fecharTela(this);
+			}
+		} else
+			JOptionPane.showMessageDialog(null,
+					"Selecione veiculo e/ou cliente", "Ninguém encontrado",
+					JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	public void setCliente(String nome) {
 		tCliente.setText(nome);
 	}
 
-	private Veiculo buscarVeiculo() {
+	private void buscarVeiculo() {
 
 		try {
-			return dao.getVeiculo(smarca, smodelo, scor, sano);
+			veiculo = dao.getVeiculo(smarca, smodelo, scor, sano);
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return null;
 		}
 	}
 
-	private void reset(JComboBox box) {
-		box.removeAllItems();
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
+		tCliente.setText(cliente.getNome());
+	}
+
+	public void setVeiculo(Veiculo veiculo) {
+		this.veiculo = veiculo;
+		marca.addItem(veiculo.getMarca().toString());
+		modelo.addItem(veiculo.getModelo().toString());
+		cor.addItem(veiculo.getCor().toString());
+		ano.addItem(String.valueOf(veiculo.getAnoFabricacao()));
+		preco.setText(String.valueOf(veiculo.getPreco()));
+
 	}
 
 }

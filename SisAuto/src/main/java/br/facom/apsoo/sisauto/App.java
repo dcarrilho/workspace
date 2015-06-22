@@ -17,17 +17,7 @@ import br.facom.apsoo.sisauto.tela.TelaVenda;
 public class App {
 	public static void main(String[] args) {
 
-		 TelaInicial inicial = new TelaInicial();
-		// inicial.setVisible(true);
-		// inicial.setSize(300, 300);
-		try {
-			Database base = new Database();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-
-//		new TelaVenda();
-//		new TelaBuscaCliente();
+		new Controller().iniciar();
 
 	}
 }

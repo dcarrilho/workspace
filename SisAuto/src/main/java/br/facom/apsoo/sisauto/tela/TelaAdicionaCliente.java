@@ -8,10 +8,12 @@ import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -19,6 +21,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.text.MaskFormatter;
 
 import br.facom.apsoo.sisauto.dao.ClienteDao;
 import br.facom.apsoo.sisauto.model.Cliente;
@@ -28,7 +31,7 @@ public class TelaAdicionaCliente extends JFrame {
 	private final JLabel lnome;
 	private final JTextField nome;
 	private final JLabel lcpf;
-	private final JTextField cpf;
+	private JTextField cpf;
 	private final JLabel lendereco;
 	private final JTextField endereco;
 	private final JLabel lcidade;
@@ -38,20 +41,28 @@ public class TelaAdicionaCliente extends JFrame {
 	private Container container;
 	private final JButton salvar;
 	private final JLabel jTextPane;
-	
-	//paineis
-//	private final JPanel clienteJPanel;
-//	private final JPanel endJPanel;
+
+	// paineis
+	// private final JPanel clienteJPanel;
+	// private final JPanel endJPanel;
 
 	public TelaAdicionaCliente() {
 		super.setTitle("SisAuto - Adiciona Cliente");
+		MaskFormatter mascaraCpf;
+		cpf = new JTextField(14);
+		try {
+			mascaraCpf = new MaskFormatter("###.###.###-##");
+			mascaraCpf.setPlaceholderCharacter('_');
+			cpf = new JFormattedTextField(mascaraCpf);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		lnome = new JLabel("Nome");
 		lcpf = new JLabel("CPF/CNPJ");
 		lendereco = new JLabel("Endereco");
 		lcidade = new JLabel("Cidade");
 		lestado = new JLabel("Estado");
 		nome = new JTextField(15);
-		cpf = new JTextField(11);
 		endereco = new JTextField(15);
 		cidade = new JTextField(10);
 		estado = new JTextField(2);
@@ -95,7 +106,6 @@ public class TelaAdicionaCliente extends JFrame {
 		add(salvar);
 
 		jTextPane = new JLabel();
-		
 
 		super.setSize(300, 300);
 		super.setVisible(true);
@@ -115,32 +125,9 @@ public class TelaAdicionaCliente extends JFrame {
 		ClienteDao dao = new ClienteDao();
 		try {
 			dao.adicionaCliente(cliente);
+			dispose();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(this, "Cliente Não pode ser Salvo!");
-		}
-
-		listar();
-
-	}
-
-	private void listar() {
-		ClienteDao dao = new ClienteDao();
-
-		try {
-			java.util.List<Cliente> lista = dao.getAll();
-			String listagem = "Nenhum Cliente Cadastrado";
-			if (!lista.isEmpty()) {
-				listagem="";
-				for (Cliente cliente : lista) {
-
-					listagem = listagem + cliente.getNome() + " \n";
-
-				}
-			}
-			jTextPane.setText(listagem);
-
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 
 	}

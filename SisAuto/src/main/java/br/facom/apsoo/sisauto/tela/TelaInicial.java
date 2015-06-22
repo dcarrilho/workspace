@@ -1,9 +1,7 @@
 package br.facom.apsoo.sisauto.tela;
 
-import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,7 +10,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
+import br.facom.apsoo.sisauto.Controller;
+
 public class TelaInicial extends JFrame{
+	
+	Controller controller;
 	
 	JMenu menu = new JMenu("Adicionar");
 	JMenuItem menuItem1 = new JMenuItem("Add Cliente");
@@ -23,7 +25,10 @@ public class TelaInicial extends JFrame{
 	JButton td = new JButton("TestDrive");
 	JPanel panel = new JPanel();
 	
-	public TelaInicial(){
+	public TelaInicial(Controller control){
+		
+		this.controller = control;
+		
 		super.setTitle("SisAuto");
 		super.setSize(300, 300);
 		super.setVisible(true);
@@ -40,8 +45,7 @@ public class TelaInicial extends JFrame{
 			
 			public void actionPerformed(ActionEvent e) {
 				
-					new TelaVenda();
-				
+					controller.venderVeiculo();			
 				
 			}
 		});
@@ -49,7 +53,7 @@ public class TelaInicial extends JFrame{
 		td.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				new TelaTestDrive();
+				controller.TestarVeiculo();
 				
 			}
 		});
@@ -57,14 +61,14 @@ public class TelaInicial extends JFrame{
 		menuItem1.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				new TelaAdicionaCliente();
+				controller.cadastrarCliente();
 			}
 		});
 		
 		menuItem2.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
-				new TelaAdicionaVeiculo();
+				controller.cadastrarVeiculo();
 				
 			}
 		});

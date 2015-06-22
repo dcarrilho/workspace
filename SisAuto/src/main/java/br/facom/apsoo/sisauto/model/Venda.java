@@ -4,15 +4,25 @@ import java.util.Calendar;
 
 public class Venda {
 	private long id;
-	private long cliente;
+	private String cliente;
 	private long veiculo;
+	private boolean financiado; 
 	private Calendar dataVenda;
+	
 	
 	public Venda(){
 		this.dataVenda = Calendar.getInstance();
 	}
 
 	//getters and setters
+	public boolean isFinanciado() {
+		return financiado;
+	}
+
+	public void setFinanciado(boolean financiado) {
+		this.financiado = financiado;
+	}
+
 	public long getId() {
 		return id;
 	}
@@ -21,11 +31,11 @@ public class Venda {
 		this.id = id;
 	}
 
-	public long getCliente() {
+	public String getCliente() {
 		return cliente;
 	}
 
-	public void setCliente(long cliente) {
+	public void setCliente(String cliente) {
 		this.cliente = cliente;
 	}
 

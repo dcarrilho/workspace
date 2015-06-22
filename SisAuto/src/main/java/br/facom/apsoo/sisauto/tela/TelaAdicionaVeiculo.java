@@ -102,34 +102,14 @@ salvar.setSize(getMinimumSize());
 		veiculo.setPreco(Double.parseDouble(preco.getText()));
 
 		VeiculoDao dao = new VeiculoDao();
+		
 		try {
 			dao.adicionaVeiculo(veiculo);
+			dispose();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 	}
-
-//	private void listar() {
-//		VeiculoDao dao = new VeiculoDao();
-//
-//		try {
-//			java.util.List<Veiculo> lista = dao.getAll();
-//			String listagem = "Nenhum Veiculo Cadastrado";
-//			if (!lista.isEmpty()) {
-//				listagem = "";
-//				for (Veiculo veiculo : lista) {
-//
-//					listagem = listagem + veiculo.getModelo() + " \n";
-//
-//				}
-//			}
-//			jTextPane.setText(listagem);
-//
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//
-//	}
 }

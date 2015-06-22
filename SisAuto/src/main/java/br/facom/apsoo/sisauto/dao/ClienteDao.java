@@ -30,12 +30,9 @@ public class ClienteDao {
         prepare.setString(5, cliente.getEstado());
         java.util.Date date = new Date(Calendar.getInstance().getTimeInMillis());
 		prepare.setDate(6, new java.sql.Date(date.getTime()));
-		System.out.println(date.getTime());
-		System.out.println(Calendar.getInstance().getTimeInMillis());
         
         prepare.execute();
 
-        System.out.println("Add success");
 		return false;
 	}
 	
@@ -55,6 +52,70 @@ public class ClienteDao {
 		}
 		
 		return lista;
+	}
+
+	public String[][] getWithName(String text) throws SQLException {
+		
+		Connection con = new ConnectionFactory().getConnection();
+		Statement stm = con.createStatement();
+		List<Cliente> lista = new LinkedList<Cliente>();
+		
+		ResultSet rs = stm.executeQuery("SELECT * FROM cliente WHERE nome LIKE '%"+text+"%'");
+		
+		while(rs.next()){
+			Cliente cliente = new Cliente();
+			cliente.setCadastro(rs.getString("cadastro"));
+			cliente.setNome(rs.getString("nome"));
+			lista.add(cliente);
+		}
+		
+		if( lista!=null && lista.size()>0 )
+		{
+			Cliente mc;
+			String [][]dados= new String[lista.size()][3];
+			for( int i=0;i<lista.size();i++)
+			{
+				mc= lista.get(i);
+				dados[i][0]= mc.getNome();
+				dados[i][1]= mc.getCadastro();
+			}
+			
+			return dados;
+		}
+		
+		return null;
+	}
+	
+public String[][] getWithCpf(String text) throws SQLException {
+		
+		Connection con = new ConnectionFactory().getConnection();
+		Statement stm = con.createStatement();
+		List<Cliente> lista = new LinkedList<Cliente>();
+		
+		ResultSet rs = stm.executeQuery("SELECT * FROM cliente WHERE cadastro = '"+text+"'");
+		
+		while(rs.next()){
+			Cliente cliente = new Cliente();
+			cliente.setCadastro(rs.getString("cadastro"));
+			cliente.setNome(rs.getString("nome"));
+			lista.add(cliente);
+		}
+		
+		if( lista!=null && lista.size()>0 )
+		{
+			Cliente mc;
+			String [][]dados= new String[lista.size()][3];
+			for( int i=0;i<lista.size();i++)
+			{
+				mc= lista.get(i);
+				dados[i][0]= mc.getNome();
+				dados[i][1]= mc.getCadastro();
+			}
+			
+			return dados;
+		}
+		
+		return null;
 	}
 
 }

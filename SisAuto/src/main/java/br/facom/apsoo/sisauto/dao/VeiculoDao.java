@@ -30,10 +30,9 @@ public class VeiculoDao {
 		prepare.setBoolean(8, false);
 
 		prepare.execute();
-		
+
 		con.close();
 
-		System.out.println("Veiculo Add success");
 		return false;
 	}
 
@@ -63,7 +62,7 @@ public class VeiculoDao {
 		ResultSet rs;
 		try {
 			Statement stm = con.createStatement();
-			rs = stm.executeQuery("SELECT DISTINCT marca FROM veiculo");
+			rs = stm.executeQuery("SELECT DISTINCT marca FROM veiculo WHERE vendido != 'true'");
 			while (rs.next()) {
 				lista.add(rs.getString("marca"));
 			}
@@ -71,7 +70,6 @@ public class VeiculoDao {
 		} catch (SQLException e) {
 		}
 
-		
 		return lista;
 	}
 
@@ -81,7 +79,7 @@ public class VeiculoDao {
 		ResultSet rs;
 		Statement stm = con.createStatement();
 		rs = stm.executeQuery("SELECT DISTINCT modelo FROM veiculo where marca = '"
-				+ smarca + "'");
+				+ smarca + "' AND vendido != 'true'");
 		while (rs.next()) {
 			lista.add(rs.getString("modelo"));
 		}
@@ -95,7 +93,7 @@ public class VeiculoDao {
 		ResultSet rs;
 		Statement stm = con.createStatement();
 		rs = stm.executeQuery("SELECT DISTINCT cor FROM veiculo where modelo = '"
-				+ smodelo + "'");
+				+ smodelo + "' AND vendido != 'true'");
 		while (rs.next()) {
 			lista.add(rs.getString("cor"));
 		}
@@ -110,7 +108,7 @@ public class VeiculoDao {
 		ResultSet rs;
 		Statement stm = con.createStatement();
 		rs = stm.executeQuery("SELECT DISTINCT ano_fabricacao FROM veiculo where cor = '"
-				+ scor + "'");
+				+ scor + "' AND vendido != 'true'");
 		while (rs.next()) {
 			lista.add(rs.getString("ano_fabricacao"));
 		}
@@ -120,31 +118,39 @@ public class VeiculoDao {
 
 	public Veiculo getVeiculo(String smarca, String smodelo, String scor,
 			String sano) throws SQLException {
-		if(!sano.equalsIgnoreCase("selecione")){
-		Connection con = new ConnectionFactory().getConnection();
-		ResultSet rs;
-		Statement stm = con.createStatement();
-		rs = stm.executeQuery("SELECT DISTINCT ano_fabricacao FROM veiculo where cor = '"
-				+ scor + "'");
-	
+		if (!sano.equalsIgnoreCase("selecione")) {
+			Connection con = new ConnectionFactory().getConnection();
+			ResultSet rs;
+			Statement stm = con.createStatement();
+			rs = stm.executeQuery("SELECT * FROM veiculo where marca = '"
+					+ smarca + "' AND modelo = '" + smodelo + "' AND cor = '"
+					+ scor + "' AND ano_fabricacao = " + sano+"  AND vendido != 'true'");
+
 			Veiculo veiculo = new Veiculo();
-			if (rs.isFirst()) {
+
 			veiculo.setMarca(rs.getString("marca"));
 			veiculo.setModelo(rs.getString("modelo"));
 			veiculo.setCor(rs.getString("cor"));
 			veiculo.setAnoFabricacao(rs.getInt("ano_fabricacao"));
+			veiculo.setPreco(rs.getDouble("preco"));
 			veiculo.setId(rs.getLong("id"));
-			}
-		con.close();
-		return veiculo;
+
+			con.close();
+			return veiculo;
 		}
 		return null;
 	}
 
 	public void setVenda(long id) throws SQLException {
+		int i;
 		Connection con = new ConnectionFactory().getConnection();
-		PreparedStatement prepare = con.prepareStatement("UPDATE veiculo SET vendido = true WHERE id = "+id);
-		prepare.execute();
+		con.setAutoCommit(false);
+		Statement prepare;
+		prepare = con.createStatement();
+		i = prepare.executeUpdate("UPDATE veiculo SET vendido='true' WHERE id="
+				+ id);
+		con.commit();
+		con.close();
 	}
 
 }
